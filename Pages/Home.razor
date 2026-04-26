@@ -1,0 +1,104 @@
+﻿@page "/profile"
+@using BlazorApp6.Components
+@rendermode InteractiveServer
+
+<div class="themes-wrapper @(theme == "dark" ? "dark-mode" : "light-mode")">
+    
+    <div class="profile-page">
+        @if (isLoading)
+        {
+            <div class="full-page-loader">
+                <div class="spinner-modern"></div>
+                <span>Синхронизация данных...</span>
+            </div>
+        }
+        else
+        {
+            <div class="content-container">
+                <header class="main-header">
+                    <h1 class="page-title">Настройки профиля</h1>
+                    <p class="page-desc">Управление безопасностью и внешним видом аккаунта</p>
+                </header>
+
+                <div class="settings-grid">
+                    <ActionCard Title="Фото профиля" Description="Настройте ваш визуальный образ">
+                        <div class="avatar-section">
+                            <div class="avatar-circle">
+                                <img src="@avatarUrl" alt="User Avatar" />
+                            </div>
+                            <div class="upload-controls">
+                                <InputFile id="fileInput" OnChange="HandleFileSelected" hidden accept=".jpg,.png" />
+                                <label for="fileInput" class="custom-btn btn-secondary">Выбрать файл</label>
+                                <p class="file-info text-muted">JPG или PNG, макс. 2МБ</p>
+                            </div>
+                        </div>
+                    </ActionCard>
+                    
+                    <ActionCard Title="Безопасность" Description="Обновите пароль для защиты аккаунта">
+                        <CustomInput Label="Текущий пароль" Type="password" @bind-Value="oldPass" />
+                        <CustomInput Label="Новый пароль" Type="password" Placeholder="Мин. 6 символов" @bind-Value="newPass" />
+                        
+                        <button class="custom-btn btn-primary" 
+                                disabled="@IsPasswordButtonDisabled" 
+                                @onclick="UpdatePassword">
+                            @saveStatus
+                        </button>
+                    </ActionCard>
+                    
+                    <ActionCard Title="Интерфейс" Description="Выберите цветовую схему">
+                        <div class="theme-grid">
+                            <button class="custom-btn theme-choice-btn @(theme == "light" ? "active" : "")" @onclick='() => theme = "light"'>
+                                 Светлая
+                            </button>
+                            <button class="custom-btn theme-choice-btn @(theme == "dark" ? "active" : "")" @onclick='() => theme = "dark"'>
+                                 Тёмная
+                            </button>
+                        </div>
+                    </ActionCard>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private bool isLoading = true;
+    private string avatarUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=Navar";
+    private string oldPass = "";
+    private string newPass = "";
+    private string theme = "light";
+    private string saveStatus = "Обновить пароль";
+
+    private bool IsPasswordButtonDisabled => string.IsNullOrWhiteSpace(newPass) || newPass.Length < 6;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1200);
+        isLoading = false;
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            var format = "image/png";
+            var resizedImage = await file.RequestImageFileAsync(format, 300, 300);
+            var buffer = new byte[resizedImage.Size];
+            await resizedImage.OpenReadStream().ReadAsync(buffer);
+            avatarUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+        }
+    }
+
+    private async Task UpdatePassword()
+    {
+        saveStatus = "Сохранение...";
+        await Task.Delay(1000);
+        oldPass = "";
+        newPass = "";
+        saveStatus = "Готово!";
+        StateHasChanged();
+        await Task.Delay(2000);
+        saveStatus = "Обновить пароль";
+    }
+}

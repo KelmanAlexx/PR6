@@ -1,0 +1,24 @@
+<div class="input-field">
+    <label class="label">@Label</label>
+    <div class="input-wrapper">
+        <input type="@Type" 
+               class="input-control" 
+               placeholder="@Placeholder" 
+               value="@Value" 
+               @oninput="OnInputChanged" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string Placeholder { get; set; } = "";
+    [Parameter] public string Type { get; set; } = "text";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? "";
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

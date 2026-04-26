@@ -1,0 +1,172 @@
+/* Это бааааааза */
+.themes-wrapper {
+    --c-primary: #4f46e5;
+    --c-primary-dark: #3730a3;
+    --c-white: #ffffff;
+    --border-radius-card: 16px;
+    --border-radius-btn: 10px;
+    --shadow-input: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Ай глазам больно (светлая тема) */
+.light-mode {
+    --c-bg: #f8fafc;
+    --c-card: #ffffff;
+    --c-text-main: #111827;
+    --c-text-muted: #6b7280;
+    --c-border: #e5e7eb;
+    
+    --c-btn-secondary-bg: #ffffff;
+    --c-btn-secondary-text: #1f2937;
+    --c-btn-secondary-border: #d1d5db;
+    --c-btn-secondary-hover-bg: #f9fafb;
+    
+    --c-btn-disabled-bg: #f3f4f6;
+    --c-btn-disabled-text: #9ca3af;
+}
+
+/* А посветлее можно? (тёмная тема) */
+.dark-mode {
+    --c-bg: #0f172a;
+    --c-card: #1e293b;
+    --c-text-main: #f9fafb;
+    --c-text-muted: #9ca3af;
+    --c-border: #334155;
+    
+    --c-btn-secondary-bg: #334155;
+    --c-btn-secondary-text: #f9fafb;
+    --c-btn-secondary-border: #4b5563;
+    --c-btn-secondary-hover-bg: #4b5563;
+    
+    --c-btn-disabled-bg: #334155;
+    --c-btn-disabled-text: #6b7280;
+}
+
+.profile-page {
+    background-color: var(--c-bg);
+    color: var(--c-text-main);
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.content-container { max-width: 1000px; margin: 0 auto; }
+.main-header h1 { font-size: 2.2rem; font-weight: 800; color: var(--c-text-main); margin-bottom: 8px; }
+.main-header p { color: var(--c-text-muted); margin-bottom: 40px; }
+
+/* Сетка */
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 32px;
+}
+
+/* Для ActionCard */
+.action-card {
+    background: var(--c-card);
+    border-radius: var(--border-radius-card);
+    padding: 32px;
+    border: 1px solid var(--c-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.card-title { font-weight: 700; font-size: 1.4rem; color: var(--c-text-main); margin-bottom: 8px; }
+.card-desc { color: var(--c-text-muted); font-size: 0.95rem; margin-bottom: 32px; }
+
+
+/* База кнопок */
+.custom-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: var(--border-radius-btn);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+}
+
+.custom-btn:focus { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+
+/* А если забыл? (Кнопка смены пароля) */
+.btn-primary {
+    background-color: var(--c-primary);
+    color: var(--c-white);
+    width: 100%;
+    margin-top: 16px;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: var(--c-primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+/* Аватарка роблокс скачат онлаин (Кнопка выбора файла) */
+.btn-secondary {
+    background-color: var(--c-btn-secondary-bg);
+    color: var(--c-btn-secondary-text);
+    border-color: var(--c-btn-secondary-border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--c-btn-secondary-hover-bg);
+}
+
+/* Кнопки темы */
+.theme-grid {
+    display: flex;
+    gap: 16px;
+}
+
+.theme-choice-btn {
+    flex: 1;
+    background-color: var(--c-btn-secondary-bg);
+    color: var(--c-btn-secondary-text);
+    border-color: var(--c-btn-secondary-border);
+}
+
+.theme-choice-btn:hover:not(.active) {
+    background-color: var(--c-btn-secondary-hover-bg);
+}
+
+/* Активные кнопки темы */
+.theme-choice-btn.active {
+    background-color: var(--c-primary) !important;
+    color: var(--c-white) !important;
+    border-color: var(--c-primary) !important;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2) !important;
+}
+
+/* Не активные кнопки */
+.custom-btn:disabled {
+    background-color: var(--c-btn-disabled-bg) !important;
+    color: var(--c-btn-disabled-text) !important;
+    border-color: var(--c-btn-disabled-bg) !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Аватар и выбор файлов */
+.avatar-section { display: flex; align-items: center; gap: 24px; }
+.avatar-circle { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 3px solid var(--c-primary); background: var(--c-bg); }
+.avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+.file-info { margin-top: 8px; font-size: 0.85rem; color: var(--c-text-muted); }
+
+.text-muted { color: var(--c-text-muted) !important; }
+
+/* Загрузка сайта */
+.spinner-modern { width: 50px; height: 50px; border: 5px solid var(--c-border); border-top-color: var(--c-primary); border-radius: 50%; animation: spin 1s infinite linear; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Нужная фигня (уже не помню зачем) */
+@media (max-width: 768px) { .settings-grid { grid-template-columns: 1fr; } }
+@media (max-width: 375px) { .settings-grid { grid-template-columns: 1fr; } }
